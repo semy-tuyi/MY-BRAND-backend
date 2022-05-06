@@ -7,15 +7,13 @@ require('dotenv/config');
 
 chai.use(chaiHttp);
 let token = "";
+let query = "";
 
 describe("POST API /users", () =>{
     beforeEach(()=>{
         mongoose.connection.dropCollection("users");
     })
 
-   
-    
-   
     const user = {
         name:"Tuyisenge Samuel",
         email:"tuyisengesamy6@gmail.com",
@@ -49,8 +47,32 @@ describe("POST API /users", () =>{
 
 });
 
+describe("POST API /query", () => {
+    before(() => {
+        mongoose.connection.dropCollection("query");
+    });
+
+    const message = {
+        name: "Samuel",
+        email: "samuel@gmail.com",
+        message: "never say never"
+    };
+
+    it("should successfully create a message and return 200", (done) => {
+        chai.request(app)
+            .post("/query")
+            .send(message)
+            .end((err, res) => {
+                if(err) return done(err);
+                expect(res.status).to.be.equal(200);
+                
+                return done();
+            });
+    });
+});
+
+// login first to get token so that you can get available queries
 describe("POST API /users/login", () => {
-    
     afterEach(()=>{
         mongoose.connection.dropCollection("users")
     })
@@ -59,10 +81,7 @@ describe("POST API /users/login", () => {
         password: "semytuyi"
     };
 
-    const user1 = {
-        email: "tuyisengesamy@gmail.com",
-        password: "semysamy"
-    };
+   
 
     it("it should successfully login and return 200", (done) => {
         chai.request(app)
@@ -77,51 +96,69 @@ describe("POST API /users/login", () => {
             });
     });
 
-    it("it should deny access because of invalid credentials", (done) => {
-        
-        chai.request(app)
-            .post("/users/login")
-            .send(user1)
-            .end((err, res) => {
-                if(err) return done(err);
-                expect(res.status).to.be.equal(401);
-                expect(res.body).to.have.property('message');
-                return done();
-            });
-    });
+   
+   
     
-    describe("GET API /users/get", () => {
-        it("should return list of all users", (done) => {
+    describe('GET API /query', () => {
+       
+        it("should successfully get all queries and return 200", (done) => {
             chai.request(app)
-                .get("/users/get")
+                .get("/query")
                 .set("Authorization", `Bearer ${token}`)
-                .send()
                 .end((err, res) => {
                     if(err) return done(err);
-                    expect(res.status).to.be.equal(200);
+                    expect(res).to.have.status(200);
+                    expect(res.body).to.be.a("array")
                     return done();
                 });
         });
-
-
     });
 
-    describe("DELETE API /user/id", ()=>{
-        const userId = "1229b52ca50601182da72457";
-        it("Should delete a user according to id", (done) =>{
+    const queryId = '6274f1b1ea3f697ab86fc43a'
+
+    describe('GET API /query/{id}', () => {
+       
+        /*it("should successfully get a single query and return 200", (done) => {
             chai.request(app)
-                .delete(`/users/${userId}`)
+                .get(`/query/${queryId}`)
                 .set("Authorization", `Bearer ${token}`)
-                .send()
                 .end((err, res) => {
                     if(err) return done(err);
-                    expect(res.status).to.be.equal(200);
-                    expect(res.body).to.have.property("message");
+                    expect(res).to.have.status(200);
+                    expect(res.body).to.be.a("object")
                     return done();
-                })
+                });
+        });*/
+
+        it("when query doen't exist should  return 404", (done) => {
+            chai.request(app)
+            .get(`/query/${queryId}`)
+            .set("Authorization", `Bearer ${token}`)
+            .end((err, res) => {
+                if(err) return done(err);
+                expect(res).to.have.status(404);
+                return done();
+            });
+        });
+
+    }); 
+
+    describe('DELETE API /query/{id}',() => {
+        it("should delete query successfuly and return 200", (done) => {
+            chai.request(app)
+            .delete(`/query/${queryId}`)
+            .set("Authorization", `Bearer ${token}`)
+            .end((err, res) => {
+                if(err) return done(err);
+                expect(res).to.have.status(200);
+                return done();
+            });
         })
 
-        
-    });
+      
+       
+    })
+
 
 });
+

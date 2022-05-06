@@ -8,7 +8,8 @@ Content-Type: application/json
     {
     "name":"TUYISENGE Samuel",
     "email":"tuyisengesamy6@gmail.com",
-    "password":"semytuyi"
+    "password":"semytuyi",
+    "role":"admin"
     }
 
 
@@ -18,7 +19,7 @@ POST http://localhost:4000/users/login
 Content-Type: application/json
 
     {
-    "email":"tuyisengesamy6@gmail.com",
+    "email":"samy6@gmail.com",
     "password":"semytuyi"
     }
 
@@ -30,7 +31,7 @@ Authorization: Bearer {{token}}
 
 
 ### DELETE USER vv
-DELETE http://localhost:4000/users/
+DELETE http://localhost:4000/users/1229b52ca50601182da72457
 Authorization: Bearer {{token}}
 
 
@@ -47,7 +48,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### delete query  vv
-DELETE  http://localhost:4000/query/626a3ebbae0527b65e9549aa
+DELETE  http://localhost:4000/query/6274f053b31e67d19147d8da
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -64,15 +65,16 @@ Content-Type: application/json
 
 ###CREATE ARTICLE  vv
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNmEyZDBmMDFkOWRjMDFjZmQwZWYzYiIsImlhdCI6MTY1MTE1Njc5NSwiZXhwIjoxNjUzNzQ4Nzk1fQ.dUtk4u5AJcfears5YHJBYbvAYWf-Hf1HNtrOctggJf0
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzJjODgzNThlNTRhNWM1ZjM4MTAxYyIsImlhdCI6MTY1MTgzNzkwMSwiZXhwIjoxNjU0NDI5OTAxfQ.Y1G8UHYW0A0Z3t4oEnE88ynY0UT6368qoCj8HV2qQh4
 POST http://localhost:4000/article
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
     {
-    "title":"IN THE GAME OF SUCCESS",
-    "authorName":"Tuyisenge Samuel",
-    "content":"win or lose atleat you are doing something"
+        "title": "WIN OR LOSE",
+        "authorName": "samuel",
+        "content": "win or lose atleast you are doing something"
+        
     }
 
 
@@ -115,7 +117,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
     {
-        "comment":"this new test after changing route"
+        "comment":"this new test after changing route"                                                                                                                                         
     }
 ### fetching comments vv
 GET http://localhost:4000/article/comment/626aa75b255be0be13ca9645

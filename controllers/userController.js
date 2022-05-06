@@ -67,13 +67,23 @@ const getAllUsers = (req, res) =>{
 
 const deleteUser = (req, res) =>{
     const {id} = req.params
+
+    User.findOne({_id:id})
+    .then(result => {
+        if(!result){
+            res.status(404).json({message:"user doesn't exist"})
+                }
+    })
+    .catch(error => res.status(404).json({error:error.message}))
+
     User.deleteOne({_id:id})
-        .then(
-            res.status(200).json({message:"user deleted successfully"})
-        )
-        .catch(error => {
-            res.status(404).json({error:"user doesn't exist"})
-        })
+            .then(
+                res.status(200).json({message:"user deleted successfully"})
+            )
+            .catch(error => {
+                res.status(404).json({err:error.message})
+            })
+   
    
 }
 // generate token

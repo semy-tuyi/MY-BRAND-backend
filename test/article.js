@@ -13,9 +13,6 @@ describe("POST API /users", () =>{
         mongoose.connection.dropCollection("users");
     })
 
-   
-    
-   
     const user = {
         name:"Tuyisenge Samuel",
         email:"tuyisengesamy6@gmail.com",
@@ -34,23 +31,11 @@ describe("POST API /users", () =>{
             });
             
     });
-
-    it("should return 409 when email exists", (done) => {
-        const oldUser = user.email;
-        chai.request(app)
-            .post("/users")
-            .send(user)
-            .end((err, res) => {
-                if (oldUser) return done(err);
-                expect(res.status).to.have.status(409);
-                return done();
-            });
-    });
-
 });
 
+
+
 describe("POST API /users/login", () => {
-    
     afterEach(()=>{
         mongoose.connection.dropCollection("users")
     })
@@ -76,52 +61,48 @@ describe("POST API /users/login", () => {
                 return done();
             });
     });
-
-    it("it should deny access because of invalid credentials", (done) => {
-        
-        chai.request(app)
-            .post("/users/login")
-            .send(user1)
-            .end((err, res) => {
-                if(err) return done(err);
-                expect(res.status).to.be.equal(401);
-                expect(res.body).to.have.property('message');
-                return done();
-            });
-    });
     
-    describe("GET API /users/get", () => {
-        it("should return list of all users", (done) => {
+    describe("POST API  /article", () => {
+
+        const article = {
+            title: "WIN OR LOSE",
+            authorName: "samuel",
+            content: "win or lose atleast you are doing something"
+        };
+    
+        it("it must create article and return 200", (done) => {
+
+           chai.request(app)
+                .post("/article")
+                .set('Authorization',`Bearer ${token}`)
+                .send(article)
+                .end((err, res) => {
+                    if(err) return done(err);
+                    //expect(res).to.have.status(200);
+                    expect(res.body).to.be.a("object");
+                    expect(res.body).to.have.property("title");
+                    expect(res.body).to.have.property("authorName");
+                    expect(res.body).to.have.property("content");
+                    return done();
+                })
+    
+        });
+    });
+
+    describe("GET API  /article", () => {
+        it('must return all articles', (done) => {
             chai.request(app)
-                .get("/users/get")
+                .get("/article")
                 .set("Authorization", `Bearer ${token}`)
                 .send()
                 .end((err, res) => {
-                    if(err) return done(err);
-                    expect(res.status).to.be.equal(200);
+                    if (err) return done(err);
+                    expect(res).to.have.status(200);
+                    expect(res.body).to.be.a('array');
                     return done();
                 });
         });
-
-
-    });
-
-    describe("DELETE API /user/id", ()=>{
-        const userId = "1229b52ca50601182da72457";
-        it("Should delete a user according to id", (done) =>{
-            chai.request(app)
-                .delete(`/users/${userId}`)
-                .set("Authorization", `Bearer ${token}`)
-                .send()
-                .end((err, res) => {
-                    if(err) return done(err);
-                    expect(res.status).to.be.equal(200);
-                    expect(res.body).to.have.property("message");
-                    return done();
-                })
-        })
-
-        
     });
 
 });
+

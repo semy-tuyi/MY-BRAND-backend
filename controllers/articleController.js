@@ -11,7 +11,6 @@ today = `${dd} / ${mm} / ${yyyy}`;
 
 
 exports.createNewArticle = async (req, res) => {
-    //console.log(req.body);
     try{
         const validationResult = await articleSchema.validateAsync(req.body);
         
@@ -24,9 +23,9 @@ exports.createNewArticle = async (req, res) => {
             })
             article.save()
             .then(result => {
-                res.json(result)
+                res.status(200).json(result)
             })
-            .catch(error => res.json({message:message.error}))
+            .catch(error => res.json({message:error.message}))
         }else{
             res.status(401).json({message:'User not Authorized'})
         }
@@ -38,7 +37,7 @@ exports.createNewArticle = async (req, res) => {
 exports.getAllArticles = (req, res) => {
     Article.find()
     .then(result => {
-        res.json(result)
+        res.status(200).json(result)
     })
 };
 exports.getOneArticle = (req, res) => {
@@ -69,7 +68,7 @@ exports.updateArticle = async (req, res) => {
 
                 article.save()
                 .then(result => res.json(result).status(200))
-                .catch(error => console.log(error))
+                .catch(error => res.json({error:error.message}))
             })
             .catch(error => {
                 res.status(404).json({error:"article doesn't exist!"})
