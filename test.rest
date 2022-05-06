@@ -1,0 +1,121 @@
+//Install vs code extension "REST CLIENT" for testing these api
+// CRUD OPERATION ON USER
+
+### ADD USER vv
+POST http://localhost:4000/users
+Content-Type: application/json
+
+    {
+    "name":"TUYISENGE Samuel",
+    "email":"tuyisengesamy6@gmail.com",
+    "password":"semytuyi"
+    }
+
+
+
+### USER LOGIN vv
+POST http://localhost:4000/users/login
+Content-Type: application/json
+
+    {
+    "email":"tuyisengesamy6@gmail.com",
+    "password":"semytuyi"
+    }
+
+###GET ALL USERS vv
+GET  http://localhost:4000/users/get
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+
+### DELETE USER vv
+DELETE http://localhost:4000/users/
+Authorization: Bearer {{token}}
+
+
+###GET ALL QUERY vv
+// CRUD ON QUERY
+GET  http://localhost:4000/query
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+### GET A SINGLE QUERY nop
+GET http://localhost:4000/query/626a4183a2be06f1d7e62ba7
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### delete query  vv
+DELETE  http://localhost:4000/query/626a3ebbae0527b65e9549aa
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+### ADD A QUERY vv
+POST http://localhost:4000/query
+Content-Type: application/json
+
+    {
+    "name":"tuyisenge",
+    "email":"semysamuel@gmail.com",
+    "message":"it is confusing"
+    }
+
+###CREATE ARTICLE  vv
+
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNmEyZDBmMDFkOWRjMDFjZmQwZWYzYiIsImlhdCI6MTY1MTE1Njc5NSwiZXhwIjoxNjUzNzQ4Nzk1fQ.dUtk4u5AJcfears5YHJBYbvAYWf-Hf1HNtrOctggJf0
+POST http://localhost:4000/article
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+    {
+    "title":"IN THE GAME OF SUCCESS",
+    "authorName":"Tuyisenge Samuel",
+    "content":"win or lose atleat you are doing something"
+    }
+
+
+
+### vvv
+//get all articles
+GET http://localhost:4000/article
+
+
+
+### get single article  nop
+GET http://localhost:4000/article/626696297884e14369fa5335
+
+
+
+
+### update article  vvv
+PATCH  http://localhost:4000/article/626696297884e14369fa533/update
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+    {
+    "title":"UNIT TESTING",
+    "authorName":"Tuyisenge Samuel",
+    "content":"it is not going to be easy"
+    }
+
+
+
+
+### DELETE ARTICLE vv
+DELETE  http://localhost:4000/article/
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+### COMMENTING ON ARTICLE vvv
+POST  http://localhost:4000/article/626aa75b255be0be13ca9645/comment
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+    {
+        "comment":"this new test after changing route"
+    }
+### fetching comments vv
+GET http://localhost:4000/article/comment/626aa75b255be0be13ca9645

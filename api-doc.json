@@ -1,0 +1,534 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Tuyisenge brand's Api",
+      "description": "This is an API documentation using swagger of my brand project.",
+      "contact": {
+        "name": "TUYISENGE Samuel",
+        "email": "tuyisengesamy6@gmail.com",
+        "url": ""
+      },
+      "license": {
+        "name": "Apache 2.0",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+      },
+      "version": "1.0.1"
+    },
+
+    "securityDefinitions": {
+        "Bearer": {
+          "type": "apiKey",
+          "name": "authorization",
+          "in": "header"
+        }
+    },
+    "servers": [
+        {
+          "url": "https://localhost:4000",
+          "name": "start"
+        }
+    ],
+    "paths": {
+        "/users": {
+            "post": {
+              "tags": [
+                "User"
+              ],
+              "summary": "Registration for standard user ",
+              "description": "Register your account as a standard user ",
+              "operationId": "Signup",
+              "parameters": [
+                {
+                  "in": "body",
+                  "name": "body",
+                  "description": "Resource payload",
+                  "required": true,
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "password": {
+                        "type": "string"
+                      }
+                      
+                    }
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "user created"
+                }
+              }
+            }
+        },
+
+        "/users/login": {
+            "post": {
+              "tags": [
+                "User Authentication"
+              ],
+              "summary": "Login for Standard-User |Admin",
+              "description": "Login for user or admin",
+              "operationId": "Login",
+              "parameters": [
+                {
+                  "in": "body",
+                  "name": "body",
+                  "description": "Resource payload",
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "email": {
+                        "type": "string"
+                      },
+                      "password": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "login successful"
+                }
+              }
+            }
+        },
+
+        "/users/get": {
+            "get": {
+              "tags": [
+                "User"
+              ],
+              "summary": "Get all users",
+              "description": "list of Registered Users",
+              "OperationId": "List of Registered Users",
+              "responses": {
+                "200": {"description":"Users are retrieved successfully"},
+                "401":{"description":"Unauthorized"},
+                "400":{"description":"Bad request"}
+              },
+              "security": [
+                {
+                  "Bearer": []
+                }
+              ]
+            }
+        },
+
+        "/users/{id}": {
+            "delete": {
+              "tags": [
+                "User"
+              ],
+              "summary": "Delete User",
+              "description": "Delete User",
+              "OperationId": "Delete User",
+              "security": [
+                {
+                  "Bearer": []
+                }
+              ],
+              "produces": [
+                "application/json"
+              ],
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "type": "string",
+                  "description": "User Id",
+                  "required": true
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "User is deleted successful"
+                },
+                "400":{
+                  "description":"bad request"
+                },
+                "401":{
+                  "description": "Unauthorized"
+                }
+              }
+            }
+        },
+
+        "/query": {
+          "post": {
+            "tags": [
+              "Message"
+            ],
+            "summary": "Send a Message",
+            "description": " user can can send a message",
+            "required": true,
+            "parameters": [
+              {
+                "in": "body",
+                "name": "body",
+                "description": "Resource payload",
+                "required": true,
+                "schema": {
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Message Sent successfully"
+              },
+              "400":{
+                "description":"bad request"
+              }
+            }
+          },
+          "get": {
+            "tags": [
+              "Message"
+            ],
+            "summary": "Get all Message",
+            "description": "list of all Message Sent",
+            "OperationId": "List of all message sent",
+            "responses": {
+              "200": {"description":"messages retrieved successfully"},
+              "401":{"description":"Unauthorized"},
+              "400":{"description":"bad request"}
+            },
+            "security": [
+              {
+                "Bearer": []
+              }
+            ]
+          }
+        },
+        "/query/{id}":{
+            "delete":{
+                "tags":[
+                  "Message" 
+                ],
+                "summary":"Delete Message",
+                "description":"Deleting Message",
+                "OperationId":"Delete Message",
+                "security":[
+                  {
+                    "Bearer":[]
+                  } 
+                ],
+                "parameters":[
+                  {
+                    "name":"id",
+                    "in":"path",
+                    "type":"string",
+                    "description":"Message Id",
+                    "required":true
+                  }
+                ],
+                "responses": {
+                  "200":{
+                    "description":"Message deleted successfully"
+                  },
+                  "400":{
+                    "description":"bad request"
+                  },
+                  "401":{
+                    "desciption":"Unauthorized"
+                  },
+                  "404":{
+                    "description":"Message Not Found"
+                  }
+                }
+            }
+        },
+        
+        "/article": {
+          "post": {
+            "tags": [
+              "Article"
+            ],
+            "summary": "Create a article",
+            "description": "Create a Article",
+            "operationId": "Add Article",
+            "produces": [
+              "application/json"
+            ],
+           
+            "parameters": [
+              {
+                "name": "body",
+                "in": "body",
+                "description":"Resource payload",
+                "required": true,
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "authorName": {
+                      "type": "string"
+                    },
+                    "content": {
+                      "type": "string"
+                    }
+                   
+                  }
+                }
+              }
+            ],
+            "security": [
+              {
+                "Bearer": []
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Article created Successfully"
+              },
+              
+              "400": {
+                "description":"Bad request"
+              },
+
+              "401": {
+                "description":"Unauthorized"
+              }
+            }
+          }
+        },
+        "/article/": {
+          "get": {
+            "tags": [
+              "Article"
+            ],
+            "summary": "Get all Articles",
+            "description": "list of all Articles created",
+            "OperationId": "List of Articles",
+            "responses": {
+              "200": {
+                "description":"articles retrieved successfully"
+              },
+              "400": {
+                "description":"Bad request"
+              },
+              "401": {
+                "desciption":"Unauthorized"
+              }
+            }
+          }
+        },
+
+        "/article/{id}": {
+          "delete": {
+            "tags": [
+              "Article"
+            ],
+            "summary": "Delete a article",
+            "description": "Deleting Article",
+            "OperationId": "Delete Article",
+            "security": [
+              {
+                "Bearer": []
+              }
+            ],
+            "produces": [
+              "application/json"
+            ],
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "type": "string",
+                "description": "Article Id",
+                "required": true
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Article deleted successful"
+              },
+              "400": {
+                "description":"Bad request"
+              },
+              "401": {
+                "desciption":"Unauthorized"
+              },
+              "404": {
+                "description": "Not Found"
+              }
+
+            }
+          }
+        },
+        "/article/{id}/update":{
+            "patch":{
+              "tags":["Article"],
+              "summary":"Update an article",
+              "description":"Update an Article",
+              "operationId":"Update Article",
+              "produces": [
+                "application/json"
+              ],
+
+              "parameters":[
+                {
+                  "name": "id",
+                  "in":"path",
+                  "type":"string",
+                  "description":"Article Id",
+                  "required": true
+                },
+                {
+                  "name":"body",
+                  "in":"body",
+                  "schema":{
+                    "type":"object",
+                    "properties":{
+                      "title":{
+                        "type":"string"
+                      },
+                      "authorName":{
+                        "type":"string"
+                      },
+                      "content":{
+                        "type":"string"
+                      }
+                    }
+                  }
+                }
+              ],
+              "security":[
+                {
+                  "Bearer":[]
+                }
+              ],
+              "responses":{
+                "200":{
+                  "description":"article updated successfully" 
+                },
+                "400":{
+                  "description":"Bad request"
+                },
+                "401":{
+                  "description":"Unauthorized"
+
+                },
+                "404":{
+                  "description":"article Not Found"
+                }
+              }
+
+            }
+        },
+
+        "/article/comment/{id}": {
+          "get": {
+            "tags": [
+              "comment"
+            ],
+            "summary": "Fetch comment of a Article",
+            "description": "Fetch comments that posted on a Article",
+            "operationId": "Fetch comments",
+            "security": [
+              {
+                "Bearer": []
+              }
+            ],
+            "produces": [
+              "application/json"
+            ],
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "type": "string",
+                "description": "Article Id",
+                "required": true
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "all comments received"
+              },
+              "400": {
+                "description":"Bad request"
+              },
+              "401": {
+                "desciption":"Unauthorized"
+              },
+              "404":{"description":"Not found"}
+            }
+          }
+        },
+        "/article/{id}/comment": {
+          "post": {
+            "tags": [
+              "comment"
+            ],
+            "summary": "Make a comment on an Article",
+            "description": "a user can comment on an article you posted on a article.",
+            "OperationId": "comment on a article",
+            "security": [
+              {
+                "Bearer": []
+              }
+            ],
+            "produces": [
+              "application/json"
+            ],
+            "parameters": [
+             {
+                "name": "id",
+                "in": "path",
+                "type": "string",
+                "description": "Article Id",
+                "required": true
+    
+             },
+             {
+              "name": "body",
+              "in": "body",
+                "schema":{
+                  "type": "object",
+                  "properties": {
+                   
+                    "comment": {
+                      "type": "string"
+                    }
+                  
+                  }
+                }
+             }
+            ],
+            "responses": {
+              "200": {
+                "description": "comment added successful"
+              },
+              "400":{
+                "description":"bad request"
+              },
+              "404":{
+                "description":"Not found"
+              }
+            }
+          }
+        }
+    }
+}
