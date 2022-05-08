@@ -85,11 +85,11 @@ exports.deleteArticle = (req, res) =>{
     const {id} = req.params
     if(req.user.role.toString() === 'admin'){
         Article.deleteOne({_id:id})
-        .then(result => {
+        .then(
             res.json({message:"article deleted successfully"})
-        })
+        )
         .catch(error => {
-            res.status(404).json({error:"article doesn't exist!"})
+            res.status(404).json({error:error.message})
         })
     }else{
         res.status(401).json({message:'User not authorized'})
@@ -97,9 +97,11 @@ exports.deleteArticle = (req, res) =>{
 }
 
 exports.commentingOnArticle = (req, res) =>{
+
     const {comment} = req.body
     const article_id = req.params.id;
     const user_id = req.user.id;
+       
     Article.findOne({_id:article_id})
     .then(article => {
         if(article){
@@ -111,9 +113,9 @@ exports.commentingOnArticle = (req, res) =>{
             article.save()
             .then(result => res.json(result))
             .catch(error => res.json({error:error.message}))
-        }else{ res.status(404).json({error:"article doesn't exist"})}
+        }else{ res.status(404).json({message:"article doesn't exist"})}
     })
-    .catch(error => res.json({error:error.message}))
+    .catch(error => res.json({error:error.message}));
 }
 
 exports.fetchComments = (req, res) => {
@@ -124,7 +126,7 @@ exports.fetchComments = (req, res) => {
         res.json(result.comments)
     })
     .catch(error => {
-        res.status(404).json({error:"article doesn't exist!"})
+        res.status(404).json({message:"article doesn't exist!"})
     })
 
 }

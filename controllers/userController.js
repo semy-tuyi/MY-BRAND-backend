@@ -2,6 +2,7 @@ const {createUserSchema, loginUserSchema} = require('../helpers/validation_schem
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+require('dotenv').config();
 
 const createNewUser = async(req, res) => {
     try {
@@ -29,7 +30,7 @@ const createNewUser = async(req, res) => {
                 role:user.role,
                 token:generateToken(user._id)
             }))
-            .catch(err => console.log(err));
+            .catch(error => {res.json({error:error.message})});
             
         }
     }
@@ -89,10 +90,9 @@ const deleteUser = (req, res) =>{
 // generate token
 
 const generateToken = (id) => {
-    const secret = "tuyi";
-    return jwt.sign({id},secret, {expiresIn:'30d'})
+    return jwt.sign({id},process.env.JWT_SECRET, {expiresIn:'30d'})
 }
-//process.env.JWT_SECRET
+
 module.exports = {
     createNewUser, loginUser, getAllUsers, deleteUser
 }

@@ -26,7 +26,8 @@ mongoose.connect(connectionUrl,{useNewUrlParser: true})
     .then(() => console.log('Now connected to MongoDB!'))
     .catch(err => console.error('Something went wrong', err));
 
-    console.log(connectionUrl);
+    //console.log(connectionUrl);
+
 app.use(express.json());
 const port = process.env.PORT;
 app.listen(port, () => console.log(`Listening on PORT ${port}...`));
